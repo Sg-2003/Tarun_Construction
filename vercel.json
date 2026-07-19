@@ -23,7 +23,7 @@
       "dest": "api/index.js"
     },
     {
-      "src": "/(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff|woff2|ttf|eot|json))$",
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff|woff2|ttf|eot|json))$",
       "dest": "/client/$1"
     },
     {
