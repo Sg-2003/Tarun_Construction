@@ -34,52 +34,62 @@ export class GalleryComponent implements OnInit {
     this.loading.set(true);
     this.projectService.getProjects({ limit: 100 }).subscribe({
       next: (res) => {
-        const items: any[] = [];
-        let index = 1;
+        try {
+          const items: any[] = [];
+          let index = 1;
 
-        res.data.forEach((project: any) => {
-          // Map DB category to gallery filter categories
-          let category = project.category;
-          if (category === 'Interior Design') {
-            category = 'Interior';
-          } else if (category === 'Industrial') {
-            category = 'Architecture';
+          if (res && res.data && Array.isArray(res.data)) {
+            res.data.forEach((project: any) => {
+              // Map DB category to gallery filter categories
+              let category = project.category || 'Architecture';
+              if (category === 'Interior Design') {
+                category = 'Interior';
+              } else if (category === 'Industrial') {
+                category = 'Architecture';
+              }
+
+              const icon = this.getCatIcon(category);
+              const color = this.getCatColor(category);
+              const title = project.title || 'Untitled Project';
+              const location = project.location ? project.location.split(',')[0] : 'India';
+
+              if (project.images && project.images.length > 0) {
+                project.images.forEach((img: any) => {
+                  items.push({
+                    id: index++,
+                    dbId: project._id,
+                    category,
+                    title: img.caption || title,
+                    location: location,
+                    imageUrl: img.url,
+                    color,
+                    icon
+                  });
+                });
+              } else {
+                // Fallback item if no images are uploaded yet
+                items.push({
+                  id: index++,
+                  dbId: project._id,
+                  category,
+                  title: title,
+                  location: location,
+                  imageUrl: null,
+                  color,
+                  icon
+                });
+              }
+            });
           }
 
-          const icon = this.getCatIcon(category);
-          const color = this.getCatColor(category);
-
-          if (project.images && project.images.length > 0) {
-            project.images.forEach((img: any, imgIdx: number) => {
-              items.push({
-                id: index++,
-                dbId: project._id,
-                category,
-                title: img.caption || project.title,
-                location: project.location.split(',')[0],
-                imageUrl: img.url,
-                color,
-                icon
-              });
-            });
-          } else {
-            // Fallback item if no images are uploaded yet
-            items.push({
-              id: index++,
-              dbId: project._id,
-              category,
-              title: project.title,
-              location: project.location.split(',')[0],
-              imageUrl: null,
-              color,
-              icon
-            });
-          }
-        });
-
-        // If no items were parsed, fall back to default design placeholders
-        this.galleryItems.set(items.length > 0 ? items : this.getDefaultMockItems());
-        this.loading.set(false);
+          // If no items were parsed, fall back to default design placeholders
+          this.galleryItems.set(items.length > 0 ? items : this.getDefaultMockItems());
+          this.loading.set(false);
+        } catch (err) {
+          console.error('Error parsing gallery items:', err);
+          this.galleryItems.set(this.getDefaultMockItems());
+          this.loading.set(false);
+        }
       },
       error: (err) => {
         console.error('Error loading gallery items:', err);
