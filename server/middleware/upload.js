@@ -27,15 +27,20 @@ if (hasCloudinary) {
     },
   });
   console.log('✅ Using Cloudinary storage for file uploads');
-} else {
   // Fallback: local disk storage
-  const uploadDir = path.join(__dirname, '../uploads');
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
+  const uploadDir = process.env.VERCEL
+    ? '/tmp/uploads'
+    : path.join(__dirname, '../uploads');
 
   storage = multer.diskStorage({
     destination: (req, file, cb) => {
+      if (!fs.existsSync(uploadDir)) {
+        try {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        } catch (err) {
+          console.error('Failed to create upload directory:', err);
+        }
+      }
       cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
@@ -43,7 +48,7 @@ if (hasCloudinary) {
       cb(null, `${Date.now()}-${file.fieldname}${ext}`);
     },
   });
-  console.log('⚠️  Cloudinary not configured — using local disk storage (uploads/)');
+  console.log('⚠️  Cloudinary not configured — using local disk storage:', uploadDir);
 }
 
 const fileFilter = (req, file, cb) => {
