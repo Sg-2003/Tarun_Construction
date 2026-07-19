@@ -20,8 +20,14 @@
     <div class="gallery-grid">
       @for (item of filtered; track item.id; let i = $index) {
         <div class="gallery-item reveal" [class.tall]="i % 5 === 0 || i % 5 === 3" (click)="openLightbox(item)">
-          <div class="gallery-img" [style.background]="'linear-gradient(135deg,' + item.color + ', #0a0a0a)'">
-            <span class="material-icons-round gallery-icon">{{ item.icon }}</span>
+          <div class="gallery-img">
+            @if (item.imageUrl) {
+              <img [src]="item.imageUrl" [alt]="item.title" class="main-img">
+            } @else {
+              <div class="placeholder-gradient" [style.background]="'linear-gradient(135deg,' + item.color + ', #0a0a0a)'">
+                <span class="material-icons-round gallery-icon">{{ item.icon }}</span>
+              </div>
+            }
           </div>
           <div class="gallery-overlay">
             <div class="gallery-info">
@@ -49,8 +55,14 @@
       <span class="material-icons-round">chevron_left</span>
     </button>
     <div class="lb-content" (click)="$event.stopPropagation()">
-      <div class="lb-image" [style.background]="'linear-gradient(135deg,' + selectedImage().color + ', #0a0a0a)'">
-        <span class="material-icons-round lb-big-icon">{{ selectedImage().icon }}</span>
+      <div class="lb-image">
+        @if (selectedImage().imageUrl) {
+          <img [src]="selectedImage().imageUrl" [alt]="selectedImage().title" class="lb-img-element">
+        } @else {
+          <div class="placeholder-gradient" [style.background]="'linear-gradient(135deg,' + selectedImage().color + ', #0a0a0a)'">
+            <span class="material-icons-round lb-big-icon">{{ selectedImage().icon }}</span>
+          </div>
+        }
       </div>
       <div class="lb-info">
         <span class="lb-cat">{{ selectedImage().category }}</span>

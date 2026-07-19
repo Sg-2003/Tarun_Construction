@@ -65,7 +65,25 @@
 
 .gallery-img {
   width: 100%; height: 100%;
-  @include flex-center;
+  position: relative;
+  overflow: hidden;
+
+  img.main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .placeholder-gradient {
+    width: 100%;
+    height: 100%;
+    @include flex-center;
+  }
+}
+
+.gallery-item:hover img.main-img {
+  transform: scale(1.08);
 }
 
 .gallery-icon {
@@ -174,7 +192,21 @@
 
 .lb-image {
   height: 440px;
-  @include flex-center;
+  position: relative;
+  overflow: hidden;
+  background: $dark-3;
+
+  img.lb-img-element {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .placeholder-gradient {
+    width: 100%;
+    height: 100%;
+    @include flex-center;
+  }
 
   @include respond-to('md') { height: 300px; }
 }
