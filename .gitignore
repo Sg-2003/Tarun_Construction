@@ -1,0 +1,18 @@
+# Root
+node_modules/
+
+# Server
+server/node_modules/
+server/.env
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Client
+client/node_modules/
+client/dist/
+client/.angular/
+
+# Misc
+*.log
+.DS_Store
+Thumbs.db

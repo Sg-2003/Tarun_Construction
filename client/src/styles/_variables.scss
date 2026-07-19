@@ -1,0 +1,120 @@
+// ====================================================
+// TARUN CONSTRUCTION — Design System Variables
+// ====================================================
+
+// --- Color Palette ---
+$primary: #F4B400;
+$primary-light: #FFD54F;
+$primary-dark: #E65100;
+$accent: #FF6B00;
+$accent-light: #FF8F00;
+
+$dark: #1C1C1C;
+$dark-2: #242424;
+$dark-3: #2E2E2E;
+$surface: #181818;
+$surface-2: #1E1E1E;
+
+$white: #FFFFFF;
+$gray-100: #F8F9FA;
+$gray-200: #E9ECEF;
+$gray-300: #DEE2E6;
+$gray-400: #CED4DA;
+$gray-500: #ADB5BD;
+$gray-600: #6C757D;
+$gray-700: #495057;
+$gray-800: #343A40;
+$gray-900: #212529;
+
+$success: #4CAF50;
+$warning: #FFC107;
+$error: #F44336;
+$info: #2196F3;
+
+// --- Typography ---
+$font-heading: 'Montserrat', sans-serif;
+$font-body: 'Inter', sans-serif;
+$font-accent: 'Bebas Neue', sans-serif;
+
+$fs-xs: 0.75rem;    // 12px
+$fs-sm: 0.875rem;   // 14px
+$fs-base: 1rem;     // 16px
+$fs-lg: 1.125rem;   // 18px
+$fs-xl: 1.25rem;    // 20px
+$fs-2xl: 1.5rem;    // 24px
+$fs-3xl: 1.875rem;  // 30px
+$fs-4xl: 2.25rem;   // 36px
+$fs-5xl: 3rem;      // 48px
+$fs-6xl: 3.75rem;   // 60px
+$fs-7xl: 4.5rem;    // 72px
+$fs-hero: clamp(3rem, 7vw, 6rem);
+
+$fw-light: 300;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+$fw-extrabold: 800;
+$fw-black: 900;
+
+// --- Spacing ---
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+$space-16: 4rem;
+$space-20: 5rem;
+$space-24: 6rem;
+$space-32: 8rem;
+
+// --- Border Radius ---
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+$radius-2xl: 24px;
+$radius-full: 9999px;
+
+// --- Shadows ---
+$shadow-sm: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15);
+$shadow-md: 0 4px 6px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.2);
+$shadow-lg: 0 10px 15px rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.25);
+$shadow-xl: 0 20px 25px rgba(0,0,0,0.35), 0 10px 10px rgba(0,0,0,0.25);
+$shadow-glow: 0 0 20px rgba(244, 180, 0, 0.4);
+$shadow-glow-accent: 0 0 30px rgba(255, 107, 0, 0.5);
+
+// --- Transitions ---
+$transition-fast: all 0.15s ease;
+$transition-base: all 0.3s ease;
+$transition-slow: all 0.5s ease;
+$transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+// --- Breakpoints ---
+$bp-xs: 480px;
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-2xl: 1536px;
+
+// --- Z-index layers ---
+$z-base: 1;
+$z-raised: 10;
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-overlay: 300;
+$z-modal: 400;
+$z-toast: 500;
+
+// --- Gradients ---
+$gradient-primary: linear-gradient(135deg, $primary 0%, $accent 100%);
+$gradient-dark: linear-gradient(180deg, $dark 0%, #0A0A0A 100%);
+$gradient-hero: linear-gradient(135deg, #0D0D0D 0%, #1C1C1C 50%, #0A0A0A 100%);
+$gradient-card: linear-gradient(145deg, $dark-2 0%, $dark-3 100%);
+$gradient-yellow: linear-gradient(135deg, #F4B400 0%, #FFD54F 50%, #FF6B00 100%);
+$gradient-overlay: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);

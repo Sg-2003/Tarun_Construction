@@ -1,0 +1,141 @@
+<div class="admin-page">
+  <div class="page-top">
+    <h2 class="page-heading">
+      <span class="material-icons-round">apartment</span> Projects
+    </h2>
+    <button class="btn-add" (click)="openAddForm()" *ngIf="!showForm()">
+      <span class="material-icons-round">add</span> Add Project
+    </button>
+  </div>
+
+  <!-- Form -->
+  @if (showForm()) {
+    <div class="form-card">
+      <div class="form-card-header">
+        <h3>{{ editingProject() ? 'Edit Project' : 'Add New Project' }}</h3>
+        <button class="close-btn" (click)="cancelForm()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="fg" [class.invalid]="f['title'].touched && f['title'].invalid">
+            <label>Title *</label>
+            <input formControlName="title" placeholder="Project title" />
+          </div>
+          <div class="fg" [class.invalid]="f['location'].touched && f['location'].invalid">
+            <label>Location *</label>
+            <input formControlName="location" placeholder="City, State" />
+          </div>
+        </div>
+        <div class="fg full" [class.invalid]="f['description'].touched && f['description'].invalid">
+          <label>Description *</label>
+          <textarea formControlName="description" rows="3" placeholder="Project description..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Category *</label>
+            <select formControlName="category">
+              @for (c of categories; track c) { <option [value]="c">{{ c }}</option> }
+            </select>
+          </div>
+          <div class="fg">
+            <label>Status *</label>
+            <select formControlName="status">
+              @for (s of statuses; track s) { <option [value]="s">{{ s }}</option> }
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Client</label><input formControlName="client" placeholder="Client name" /></div>
+          <div class="fg"><label>Budget</label><input formControlName="budget" placeholder="e.g. ₹50 Lakh" /></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Area</label><input formControlName="area" placeholder="e.g. 5000 sq.ft" /></div>
+          <div class="fg"><label>Duration</label><input formControlName="duration" placeholder="e.g. 8 months" /></div>
+        </div>
+        <div class="fg full">
+          <label>Features (comma-separated)</label>
+          <input formControlName="features" placeholder="Feature 1, Feature 2, ..." />
+        </div>
+        <div class="fg-check">
+          <input type="checkbox" formControlName="isFeatured" id="featured" />
+          <label for="featured">Mark as Featured Project</label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cancelForm()">Cancel</button>
+          <button type="submit" class="btn-save" [disabled]="saving()">
+            @if (saving()) { <span class="spin"></span> Saving... }
+            @else { <span class="material-icons-round">save</span> {{ editingProject() ? 'Update' : 'Create' }} Project }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- Delete Confirm -->
+  @if (deleteConfirm()) {
+    <div class="confirm-overlay" (click)="cancelDelete()">
+      <div class="confirm-box" (click)="$event.stopPropagation()">
+        <span class="material-icons-round warn">warning</span>
+        <h4>Delete Project?</h4>
+        <p>This action cannot be undone. All project images will also be deleted.</p>
+        <div class="confirm-actions">
+          <button (click)="cancelDelete()">Cancel</button>
+          <button class="btn-confirm-del" (click)="deleteProject()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Table -->
+  @if (loading()) {
+    <div class="admin-loading"><div class="spin-lg"></div></div>
+  } @else {
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Featured</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (projects().length === 0) {
+            <tr><td colspan="6" class="empty-row">
+              <span class="material-icons-round">construction</span>
+              No projects yet. Add your first project!
+            </td></tr>
+          }
+          @for (p of projects(); track p._id) {
+            <tr>
+              <td class="td-title">{{ p.title }}</td>
+              <td><span class="cat-badge">{{ p.category }}</span></td>
+              <td>{{ p.location }}</td>
+              <td>
+                <span class="status-badge" [class]="p.status.toLowerCase()">{{ p.status }}</span>
+              </td>
+              <td>
+                <span class="material-icons-round" [style.color]="p.isFeatured ? '#F4B400' : '#333'">
+                  {{ p.isFeatured ? 'star' : 'star_border' }}
+                </span>
+              </td>
+              <td class="td-actions">
+                <button class="btn-edit" (click)="openEditForm(p)" title="Edit">
+                  <span class="material-icons-round">edit</span>
+                </button>
+                <button class="btn-del" (click)="confirmDelete(p._id)" title="Delete">
+                  <span class="material-icons-round">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

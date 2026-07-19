@@ -1,0 +1,399 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+// ====================================================
+// GLOBAL RESET & BASE STYLES
+// ====================================================
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-body;
+  background: $dark;
+  color: $white;
+  line-height: 1.6;
+  overflow-x: hidden;
+  @include custom-scrollbar;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: $transition-base;
+}
+
+img, video { max-width: 100%; display: block; }
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: $font-body;
+}
+
+input, textarea, select {
+  font-family: $font-body;
+  outline: none;
+}
+
+ul, ol { list-style: none; }
+
+// ====================================================
+// GLOBAL KEYFRAMES
+// ====================================================
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes rotateY {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba($primary, 0.3); }
+  50% { box-shadow: 0 0 25px rgba($primary, 0.7); }
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes craneRotate {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+
+@keyframes buildUp {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to { transform: scaleY(1); transform-origin: bottom; }
+}
+
+@keyframes particleFly {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+// ====================================================
+// UTILITY CLASSES
+// ====================================================
+.container { @include container; }
+.section-padding { @include section-padding; }
+
+.text-primary { color: $primary; }
+.text-accent { color: $accent; }
+.text-white { color: $white; }
+.text-gray { color: $gray-500; }
+.text-gradient { @include gradient-text; }
+
+.bg-dark { background: $dark; }
+.bg-surface { background: $surface; }
+.bg-dark-2 { background: $dark-2; }
+
+.btn-primary { @include btn-primary; }
+.btn-outline { @include btn-outline; }
+.btn-ghost { @include btn-ghost; }
+
+// Section badge
+.section-badge {
+  @include section-badge;
+}
+
+// Section heading
+.section-heading {
+  @include heading-lg;
+  margin-bottom: $space-4;
+
+  span { @include gradient-text; }
+}
+
+.section-subtitle {
+  @include body-large;
+  color: $gray-500;
+  max-width: 600px;
+}
+
+// Grid layouts
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-8;
+
+  @include respond-to('md') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-8;
+
+  @include respond-to('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to('sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-6;
+
+  @include respond-to('xl') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to('xs') {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Divider
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba($primary, 0.4), transparent);
+  margin: $space-8 0;
+}
+
+// Skeleton loader
+.skeleton {
+  background: linear-gradient(90deg, $dark-2 25%, $dark-3 50%, $dark-2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: $radius-md;
+}
+
+// Loading overlay
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: $dark;
+  @include flex-col-center;
+  z-index: $z-modal;
+  @include fade-in;
+}
+
+// Page transition
+.page-enter { @include slide-up(0.5s); }
+
+// Yellow accent line
+.yellow-line {
+  width: 60px;
+  height: 4px;
+  background: $gradient-primary;
+  border-radius: $radius-full;
+  margin: $space-4 0;
+}
+
+// Star rating
+.star-rating {
+  display: flex;
+  gap: 2px;
+  color: $primary;
+}
+
+// Badge
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+
+  &.badge-success { background: rgba($success, 0.15); color: $success; }
+  &.badge-warning { background: rgba($warning, 0.15); color: $warning; }
+  &.badge-error { background: rgba($error, 0.15); color: $error; }
+  &.badge-primary { background: rgba($primary, 0.15); color: $primary; }
+  &.badge-info { background: rgba($info, 0.15); color: $info; }
+}
+
+// Floating WhatsApp button
+.whatsapp-float {
+  position: fixed;
+  bottom: $space-8;
+  right: $space-8;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: $radius-full;
+  @include flex-center;
+  cursor: pointer;
+  z-index: $z-sticky;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: $transition-bounce;
+  text-decoration: none;
+  animation: float 3s ease-in-out infinite;
+
+  &:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+  }
+
+  img {
+    width: 32px;
+    height: 32px;
+  }
+
+  @include respond-to('md') {
+    width: 50px;
+    height: 50px;
+    bottom: $space-6;
+    right: $space-6;
+  }
+}
+
+// Page header banner
+.page-header {
+  position: relative;
+  height: 320px;
+  @include flex-col-center;
+  background: linear-gradient(135deg, #0D0D0D 0%, #1C1C1C 100%);
+  overflow: hidden;
+  text-align: center;
+  padding: $space-8;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F4B400' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+
+  h1 {
+    @include heading-lg;
+    position: relative;
+    z-index: 1;
+    span { @include gradient-text; }
+  }
+
+  .breadcrumb {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    margin-top: $space-4;
+    color: $gray-500;
+    font-size: $fs-sm;
+
+    a { color: $primary; &:hover { color: $primary-light; } }
+    span { color: $gray-600; }
+  }
+}
+
+// Angular Material overrides
+.mat-mdc-form-field {
+  width: 100%;
+
+  .mat-mdc-text-field-wrapper {
+    background: rgba($white, 0.05);
+    border-radius: $radius-lg;
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: rgba($white, 0.2);
+  }
+
+  .mat-mdc-form-field-label, label { color: $gray-400; }
+  input, textarea { color: $white; }
+}
+
+// Snackbar
+.success-snack {
+  --mdc-snackbar-container-color: #{$success};
+  --mdc-snackbar-supporting-text-color: #{$white};
+}
+
+.error-snack {
+  --mdc-snackbar-container-color: #{$error};
+  --mdc-snackbar-supporting-text-color: #{$white};
+}
+
+// Scroll reveal animation classes
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.from-left {
+    transform: translateX(-30px);
+    &.visible { transform: translateX(0); }
+  }
+
+  &.from-right {
+    transform: translateX(30px);
+    &.visible { transform: translateX(0); }
+  }
+}

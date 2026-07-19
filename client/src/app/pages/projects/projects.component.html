@@ -1,0 +1,91 @@
+<div class="page-header">
+  <h1>Our <span>Projects</span></h1>
+  <nav class="breadcrumb">
+    <a routerLink="/">Home</a>
+    <span class="material-icons-round">chevron_right</span>
+    <span>Projects</span>
+  </nav>
+</div>
+
+<section class="projects-section section-padding">
+  <div class="container">
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      @for (cat of categories; track cat) {
+        <button class="filter-btn" [class.active]="selectedCategory() === cat"
+                (click)="filterByCategory(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="projects-grid">
+        @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="project-skeleton">
+            <div class="skeleton" style="height: 220px; border-radius: 12px 12px 0 0;"></div>
+            <div style="padding: 1.5rem;">
+              <div class="skeleton" style="height: 1.2rem; margin-bottom: 0.5rem; width: 70%;"></div>
+              <div class="skeleton" style="height: 0.9rem; width: 50%;"></div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Projects Grid -->
+    @if (!loading()) {
+      @if (filteredProjects().length === 0) {
+        <div class="empty-state">
+          <span class="material-icons-round">construction</span>
+          <h3>No projects found</h3>
+          <p>No projects in this category yet. Check back soon!</p>
+        </div>
+      } @else {
+        <div class="projects-grid">
+          @for (project of filteredProjects(); track project._id) {
+            <article class="project-card reveal">
+              <div class="project-image">
+                <div class="project-img-placeholder" [attr.data-category]="project.category">
+                  <span class="material-icons-round">{{ getCatIcon(project.category) }}</span>
+                </div>
+                <div class="project-overlay">
+                  <a [routerLink]="['/projects', project._id]" class="view-btn">
+                    <span class="material-icons-round">visibility</span>
+                    View Details
+                  </a>
+                </div>
+                <div class="project-status" [class]="getStatusClass(project.status)">
+                  {{ project.status }}
+                </div>
+                @if (project.isFeatured) {
+                  <div class="featured-badge">
+                    <span class="material-icons-round">star</span> Featured
+                  </div>
+                }
+              </div>
+              <div class="project-info">
+                <span class="project-category">{{ project.category }}</span>
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
+                <div class="project-meta">
+                  <span><span class="material-icons-round">location_on</span> {{ project.location }}</span>
+                  @if (project.area) {
+                    <span><span class="material-icons-round">square_foot</span> {{ project.area }}</span>
+                  }
+                  @if (project.budget) {
+                    <span><span class="material-icons-round">payments</span> {{ project.budget }}</span>
+                  }
+                </div>
+                <a [routerLink]="['/projects', project._id]" class="project-link">
+                  View Project <span class="material-icons-round">arrow_forward</span>
+                </a>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    }
+  </div>
+</section>

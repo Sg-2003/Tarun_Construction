@@ -1,0 +1,226 @@
+<section class="hero">
+  <!-- Three.js Canvas -->
+  <canvas #threeCanvas class="three-canvas"></canvas>
+
+  <!-- Dark gradient overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Night mode toggle -->
+  <button class="night-toggle" (click)="toggleNightMode()" [title]="isNightMode() ? 'Switch to Day' : 'Switch to Night'">
+    <span class="material-icons-round">{{ isNightMode() ? 'light_mode' : 'dark_mode' }}</span>
+    {{ isNightMode() ? 'Day Mode' : 'Night Mode' }}
+  </button>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <div class="hero-card">
+      <div class="hero-badge">
+        <span class="material-icons-round">construction</span>
+        18+ Years of Excellence
+      </div>
+
+      <h1 class="hero-title">
+        Building Your <br />
+        <span class="gradient-word">Dreams</span> Into <br />
+        Reality
+      </h1>
+
+      <p class="hero-subtitle">
+        Tarun Construction — where engineering precision meets architectural vision.
+        From foundations to finishing, we build structures that last generations.
+      </p>
+
+      <div class="hero-actions">
+        <a routerLink="/projects" class="btn-hero-primary">
+          <span class="material-icons-round">apartment</span>
+          View Projects
+        </a>
+        <a routerLink="/contact" class="btn-hero-outline">
+          <span class="material-icons-round">request_quote</span>
+          Get a Free Quote
+        </a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="material-icons-round">verified</span>
+          ISO Certified
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-item">
+          <span class="material-icons-round">emoji_events</span>
+          Award Winning
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-item">
+          <span class="material-icons-round">security</span>
+          5 Year Warranty
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll to explore</span>
+    <div class="scroll-wheel">
+      <div class="scroll-dot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Stats ====== -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-card reveal">
+          <div class="stat-icon">
+            <span class="material-icons-round">{{ stat.icon }}</span>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ====== Services ====== -->
+<section class="services-section section-padding">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">
+        <span class="material-icons-round">build</span>
+        What We Do
+      </div>
+      <h2 class="section-heading">
+        Our <span>Premium</span> Services
+      </h2>
+      <p class="section-subtitle">
+        From groundbreaking to grand openings, we deliver construction excellence
+        across every domain.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      @for (svc of services; track svc.title) {
+        <div class="service-card reveal">
+          <div class="service-icon" [style.border-color]="svc.color + '40'">
+            <span class="material-icons-round" [style.color]="svc.color">{{ svc.icon }}</span>
+          </div>
+          <h3>{{ svc.title }}</h3>
+          <p>{{ svc.description }}</p>
+          <a routerLink="/services" class="service-link" [style.color]="svc.color">
+            Learn More <span class="material-icons-round">arrow_forward</span>
+          </a>
+        </div>
+      }
+    </div>
+
+    <div class="services-cta">
+      <a routerLink="/services" class="btn-primary">
+        <span class="material-icons-round">grid_view</span>
+        View All Services
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Why Choose Us ====== -->
+<section class="why-section section-padding">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-content reveal from-left">
+        <div class="section-badge">
+          <span class="material-icons-round">star</span>
+          Why Choose Us
+        </div>
+        <h2 class="section-heading">
+          Built on <span>Trust</span> &<br /> Craftsmanship
+        </h2>
+        <p class="section-subtitle">
+          We combine decades of expertise with cutting-edge technology to deliver
+          construction projects that exceed expectations.
+        </p>
+
+        <ul class="why-list">
+          <li>
+            <div class="why-icon"><span class="material-icons-round">engineering</span></div>
+            <div>
+              <strong>Expert Engineers & Architects</strong>
+              <p>Our team of certified professionals ensures every project meets the highest standards.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-icon"><span class="material-icons-round">schedule</span></div>
+            <div>
+              <strong>On-Time Delivery</strong>
+              <p>We respect your timeline and consistently deliver projects on schedule.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-icon"><span class="material-icons-round">price_check</span></div>
+            <div>
+              <strong>Transparent Pricing</strong>
+              <p>No hidden costs. Clear, detailed quotations upfront so you know exactly what you're paying.</p>
+            </div>
+          </li>
+          <li>
+            <div class="why-icon"><span class="material-icons-round">eco</span></div>
+            <div>
+              <strong>Sustainable Building</strong>
+              <p>We incorporate eco-friendly materials and green construction practices.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="why-visual reveal from-right">
+        <div class="visual-card">
+          <div class="vc-stat">
+            <span class="vc-number">500+</span>
+            <span class="vc-label">Projects Delivered</span>
+          </div>
+          <div class="vc-badge">
+            <span class="material-icons-round">military_tech</span>
+            <span>Best Constructor Award 2023</span>
+          </div>
+          <div class="vc-cert">
+            <span class="material-icons-round">verified_user</span>
+            <span>ISO 9001:2015 Certified</span>
+          </div>
+          <div class="vc-experience">
+            <span class="vc-big">18</span>
+            <span class="vc-sub">Years of Experience</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA Banner ====== -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="container">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h2>Ready to Start Your<br /><span>Dream Project?</span></h2>
+        <p>Get a free consultation and detailed cost estimate from our expert team.</p>
+      </div>
+      <div class="cta-actions">
+        <a routerLink="/contact" class="btn-cta-primary">
+          <span class="material-icons-round">request_quote</span>
+          Get Free Quote
+        </a>
+        <a href="tel:+919876543210" class="btn-cta-phone">
+          <span class="material-icons-round">call</span>
+          +91 98765 43210
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

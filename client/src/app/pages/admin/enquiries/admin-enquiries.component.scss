@@ -1,0 +1,159 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.admin-page { max-width: 1200px; }
+.page-top { @include flex-between; margin-bottom: $space-6; }
+.page-heading { font-family: $font-heading; font-size: $fs-2xl; font-weight: $fw-bold; color: $white; display: flex; align-items: center; gap: $space-3; .material-icons-round { color: $primary; } }
+.count-badge { padding: $space-2 $space-4; background: rgba($primary, 0.1); border: 1px solid rgba($primary, 0.2); border-radius: $radius-full; font-size: $fs-sm; color: $primary; font-weight: $fw-medium; }
+
+.eq-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  &.with-detail {
+    grid-template-columns: 380px 1fr;
+    @include respond-to('lg') { grid-template-columns: 1fr; }
+  }
+}
+
+// ====== List ======
+.eq-list { display: flex; flex-direction: column; gap: $space-2; }
+
+.eq-item {
+  display: flex; align-items: center; gap: $space-4;
+  padding: $space-4 $space-5;
+  background: $dark-2; border: 1px solid rgba($white, 0.06);
+  border-radius: $radius-xl; cursor: pointer; transition: $transition-base;
+  position: relative;
+
+  &:hover { border-color: rgba($primary, 0.2); background: rgba($primary, 0.03); }
+  &.active { border-color: rgba($primary, 0.4); background: rgba($primary, 0.06); }
+  &.unread { border-left: 3px solid $primary; }
+}
+
+.eq-avatar {
+  width: 44px; height: 44px; border-radius: $radius-full;
+  background: rgba($primary, 0.15); @include flex-center;
+  font-family: $font-heading; font-weight: $fw-black; color: $primary; font-size: $fs-lg;
+  flex-shrink: 0;
+}
+
+.eq-info { flex: 1; min-width: 0; }
+.eq-top { @include flex-between; gap: $space-2; margin-bottom: 2px;
+  strong { font-size: $fs-sm; font-weight: $fw-bold; color: $white; }
+}
+.eq-time { font-size: $fs-xs; color: $gray-600; white-space: nowrap; }
+.eq-service { @include label-uppercase; font-size: $fs-xs; color: $primary; display: block; margin-bottom: 4px; }
+.eq-preview { font-size: $fs-xs; color: $gray-600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.eq-meta { display: flex; flex-direction: column; align-items: center; gap: $space-2; flex-shrink: 0; }
+.status-dot { width: 10px; height: 10px; border-radius: $radius-full;
+  &.new { background: $primary; box-shadow: 0 0 6px rgba($primary, 0.5); }
+  &.progress { background: $info; }
+  &.resolved { background: $success; }
+  &.closed { background: $gray-600; }
+}
+.unread-dot { width: 8px; height: 8px; border-radius: $radius-full; background: $accent; }
+
+// ====== Detail ======
+.eq-detail {
+  background: $dark-2; border: 1px solid rgba($primary, 0.15);
+  border-radius: $radius-xl; overflow: hidden;
+  animation: slideLeft 0.3s ease;
+}
+
+.detail-header {
+  padding: $space-5 $space-6; border-bottom: 1px solid rgba($white, 0.06);
+  @include flex-between;
+  h3 { font-family: $font-heading; font-size: $fs-lg; font-weight: $fw-bold; color: $white; }
+}
+
+.detail-actions { display: flex; align-items: center; gap: $space-3; }
+
+.status-select {
+  padding: $space-2 $space-4; background: rgba($white, 0.05); border: 1px solid rgba($white, 0.1);
+  border-radius: $radius-full; color: $white; font-size: $fs-xs; font-weight: $fw-semibold;
+  cursor: pointer; outline: none; transition: $transition-base;
+  &:focus { border-color: rgba($primary, 0.4); }
+  option { background: $dark-2; }
+}
+
+.btn-del-eq, .btn-close-detail {
+  width: 34px; height: 34px; border-radius: $radius-md; border: 1px solid;
+  @include flex-center; cursor: pointer; transition: $transition-base;
+  .material-icons-round { font-size: 16px; }
+}
+.btn-del-eq { background: rgba($error, 0.08); border-color: rgba($error, 0.2); color: $error; &:hover { background: rgba($error, 0.2); } }
+.btn-close-detail { background: rgba($white, 0.04); border-color: rgba($white, 0.08); color: $gray-500; &:hover { color: $white; } }
+
+.detail-body { padding: $space-6; }
+
+.detail-user {
+  display: flex; align-items: flex-start; gap: $space-4; margin-bottom: $space-6;
+  padding-bottom: $space-6; border-bottom: 1px solid rgba($white, 0.06);
+
+  strong { display: block; font-size: $fs-base; font-weight: $fw-bold; color: $white; }
+  span { display: block; font-size: $fs-sm; color: $gray-500; }
+}
+
+.detail-avatar {
+  width: 52px; height: 52px; border-radius: $radius-full; background: $gradient-primary;
+  @include flex-center; font-family: $font-heading; font-weight: $fw-black; color: $dark; font-size: $fs-xl; flex-shrink: 0;
+}
+
+.detail-fields { display: flex; flex-direction: column; gap: $space-3; margin-bottom: $space-6; }
+
+.field {
+  display: flex; justify-content: space-between; align-items: center; gap: $space-4;
+  padding: $space-3 0; border-bottom: 1px solid rgba($white, 0.04);
+  .fl { font-size: $fs-xs; color: $gray-600; @include label-uppercase; }
+  .fv { font-size: $fs-sm; color: $gray-300; text-align: right; }
+}
+
+.status-badge {
+  padding: 3px $space-3; border-radius: $radius-full; font-size: $fs-xs; font-weight: $fw-bold;
+  &.new { background: rgba($primary, 0.12); color: $primary; }
+  &.progress { background: rgba($info, 0.12); color: $info; }
+  &.resolved { background: rgba($success, 0.12); color: $success; }
+  &.closed { background: rgba($gray-600, 0.12); color: $gray-600; }
+}
+
+.detail-message {
+  margin-bottom: $space-6;
+  h4 { font-size: $fs-sm; font-weight: $fw-bold; color: $gray-400; @include label-uppercase; margin-bottom: $space-3; }
+  p { font-size: $fs-sm; color: $gray-300; line-height: 1.8; background: rgba($white, 0.03); border: 1px solid rgba($white, 0.06); border-radius: $radius-lg; padding: $space-5; }
+}
+
+.detail-reply-btns { display: flex; gap: $space-4; }
+
+.btn-reply {
+  @include btn-base; padding: $space-3 $space-6; font-size: $fs-sm; border-radius: $radius-full;
+  gap: $space-2; .material-icons-round { font-size: 16px; }
+
+  &.email { background: rgba($info, 0.12); border: 1px solid rgba($info, 0.3); color: $info; text-decoration: none;
+    &:hover { background: rgba($info, 0.2); } }
+  &.whatsapp { background: rgba(#25D366, 0.12); border: 1px solid rgba(#25D366, 0.3); color: #25D366; text-decoration: none;
+    &:hover { background: rgba(#25D366, 0.2); } }
+}
+
+// Empty / Loading
+.empty-eq { text-align: center; padding: $space-16; color: $gray-600;
+  .material-icons-round { font-size: 60px; display: block; margin: 0 auto $space-4; color: rgba($primary, 0.2); }
+  p { font-size: $fs-base; }
+}
+.admin-loading { @include flex-center; padding: $space-16; }
+.spin-lg { width: 48px; height: 48px; border: 4px solid rgba($primary, 0.2); border-top-color: $primary; border-radius: $radius-full; animation: spin 0.8s linear infinite; }
+
+// Delete Confirm
+.confirm-overlay { position: fixed; inset: 0; background: rgba($dark, 0.85); backdrop-filter: blur(8px); z-index: $z-modal; @include flex-center; animation: fadeIn 0.2s ease; }
+.confirm-box { background: $dark-2; border: 1px solid rgba($error, 0.3); border-radius: $radius-xl; padding: $space-10; max-width: 400px; width: 90%; text-align: center; animation: slideUp 0.3s ease;
+  .warn { font-size: 52px; color: $error; display: block; margin-bottom: $space-4; }
+  h4 { font-family: $font-heading; font-size: $fs-xl; font-weight: $fw-bold; color: $white; margin-bottom: $space-3; }
+  p { font-size: $fs-sm; color: $gray-500; margin-bottom: $space-6; }
+}
+.confirm-actions { display: flex; gap: $space-4; justify-content: center;
+  button { padding: $space-3 $space-8; border-radius: $radius-full; font-size: $fs-sm; font-weight: $fw-semibold; cursor: pointer; transition: $transition-base; }
+  button:first-child { background: rgba($white, 0.05); border: 1px solid rgba($white, 0.1); color: $gray-400; &:hover { color: $white; } }
+}
+.btn-confirm-del { background: rgba($error, 0.15) !important; border: 1px solid rgba($error, 0.3) !important; color: $error !important; &:hover { background: rgba($error, 0.25) !important; } }

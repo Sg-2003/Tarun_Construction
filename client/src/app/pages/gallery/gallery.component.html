@@ -1,0 +1,65 @@
+<div class="page-header">
+  <h1>Our <span>Gallery</span></h1>
+  <nav class="breadcrumb">
+    <a routerLink="/">Home</a>
+    <span class="material-icons-round">chevron_right</span>
+    <span>Gallery</span>
+  </nav>
+</div>
+
+<section class="gallery-section section-padding">
+  <div class="container">
+    <!-- Filter -->
+    <div class="filter-tabs" style="justify-content:center; margin-bottom:3rem;">
+      @for (f of filters; track f) {
+        <button class="filter-btn" [class.active]="selectedFilter() === f" (click)="selectedFilter.set(f)">{{ f }}</button>
+      }
+    </div>
+
+    <!-- Masonry Grid -->
+    <div class="gallery-grid">
+      @for (item of filtered; track item.id; let i = $index) {
+        <div class="gallery-item reveal" [class.tall]="i % 5 === 0 || i % 5 === 3" (click)="openLightbox(item)">
+          <div class="gallery-img" [style.background]="'linear-gradient(135deg,' + item.color + ', #0a0a0a)'">
+            <span class="material-icons-round gallery-icon">{{ item.icon }}</span>
+          </div>
+          <div class="gallery-overlay">
+            <div class="gallery-info">
+              <span class="gallery-cat">{{ item.category }}</span>
+              <h4>{{ item.title }}</h4>
+              <p><span class="material-icons-round">location_on</span>{{ item.location }}</p>
+            </div>
+            <div class="gallery-zoom">
+              <span class="material-icons-round">zoom_in</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+@if (selectedImage()) {
+  <div class="lightbox" (click)="closeLightbox()">
+    <button class="lb-close" (click)="closeLightbox()">
+      <span class="material-icons-round">close</span>
+    </button>
+    <button class="lb-nav lb-prev" (click)="$event.stopPropagation(); prevImage()">
+      <span class="material-icons-round">chevron_left</span>
+    </button>
+    <div class="lb-content" (click)="$event.stopPropagation()">
+      <div class="lb-image" [style.background]="'linear-gradient(135deg,' + selectedImage().color + ', #0a0a0a)'">
+        <span class="material-icons-round lb-big-icon">{{ selectedImage().icon }}</span>
+      </div>
+      <div class="lb-info">
+        <span class="lb-cat">{{ selectedImage().category }}</span>
+        <h3>{{ selectedImage().title }}</h3>
+        <p><span class="material-icons-round">location_on</span> {{ selectedImage().location }}</p>
+      </div>
+    </div>
+    <button class="lb-nav lb-next" (click)="$event.stopPropagation(); nextImage()">
+      <span class="material-icons-round">chevron_right</span>
+    </button>
+  </div>
+}

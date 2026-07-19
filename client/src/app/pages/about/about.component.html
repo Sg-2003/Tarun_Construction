@@ -1,0 +1,114 @@
+<div class="page-header">
+  <h1>About <span>Us</span></h1>
+  <nav class="breadcrumb">
+    <a routerLink="/">Home</a>
+    <span class="material-icons-round">chevron_right</span>
+    <span>About</span>
+  </nav>
+</div>
+
+<!-- Mission & Vision -->
+<section class="about-intro section-padding">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-text reveal from-left">
+        <div class="section-badge">
+          <span class="material-icons-round">info</span>
+          Who We Are
+        </div>
+        <h2 class="section-heading">Passion for <span>Building</span> Excellence</h2>
+        <p>Tarun Construction was founded in 2005 with a simple yet powerful belief: every person deserves a beautifully built space. Today, with over 500 completed projects and 18 years of expertise, we stand as one of the most trusted construction companies in India.</p>
+        <p style="margin-top: 1rem;">We bring together world-class engineers, architects, and craftspeople to deliver projects that are structurally sound, aesthetically stunning, and sustainably built.</p>
+        <div class="intro-stats">
+          <div class="ist"><span class="ist-num">500+</span><span class="ist-label">Projects</span></div>
+          <div class="ist"><span class="ist-num">18+</span><span class="ist-label">Years</span></div>
+          <div class="ist"><span class="ist-num">250+</span><span class="ist-label">Clients</span></div>
+          <div class="ist"><span class="ist-num">50+</span><span class="ist-label">Experts</span></div>
+        </div>
+      </div>
+      <div class="mv-cards reveal from-right">
+        <div class="mv-card mission">
+          <div class="mv-icon"><span class="material-icons-round">flag</span></div>
+          <h3>Our Mission</h3>
+          <p>To deliver high-quality construction solutions that exceed client expectations through innovation, integrity, and craftsmanship — building lasting structures that enrich communities.</p>
+        </div>
+        <div class="mv-card vision">
+          <div class="mv-icon"><span class="material-icons-round">visibility</span></div>
+          <h3>Our Vision</h3>
+          <p>To be India's most trusted and innovative construction company, known for transforming ideas into iconic structures while setting new benchmarks for sustainable development.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="timeline-section section-padding">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge"><span class="material-icons-round">history</span> Our Journey</div>
+      <h2 class="section-heading">Company <span>Milestones</span></h2>
+      <p class="section-subtitle">Two decades of growth, achievement, and excellence in construction.</p>
+    </div>
+    <div class="timeline">
+      @for (m of milestones; track m.year; let i = $index) {
+        <div class="timeline-item reveal" [class.right]="i % 2 === 1">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="tl-year">{{ m.year }}</div>
+            <h4>{{ m.title }}</h4>
+            <p>{{ m.desc }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="team-section section-padding">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge"><span class="material-icons-round">groups</span> Our People</div>
+      <h2 class="section-heading">Meet the <span>Team</span></h2>
+      <p class="section-subtitle">The brilliant minds behind every great structure we build.</p>
+    </div>
+    <div class="team-grid">
+      @for (member of team; track member.name) {
+        <div class="team-card reveal">
+          <div class="team-avatar">
+            <span class="material-icons-round">{{ member.icon }}</span>
+          </div>
+          <div class="team-info">
+            <h4>{{ member.name }}</h4>
+            <span class="team-role">{{ member.role }}</span>
+            <div class="team-meta">
+              <span><span class="material-icons-round">schedule</span> {{ member.exp }}</span>
+              <span><span class="material-icons-round">star</span> {{ member.specialty }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Certifications -->
+<section class="certs-section section-padding">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge"><span class="material-icons-round">verified</span> Recognized</div>
+      <h2 class="section-heading">Our <span>Certifications</span></h2>
+      <p class="section-subtitle">Quality and safety are not just words — they're validated by industry bodies.</p>
+    </div>
+    <div class="certs-grid">
+      @for (cert of certifications; track cert.title) {
+        <div class="cert-card reveal">
+          <span class="material-icons-round">{{ cert.icon }}</span>
+          <h4>{{ cert.title }}</h4>
+          <p>{{ cert.desc }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

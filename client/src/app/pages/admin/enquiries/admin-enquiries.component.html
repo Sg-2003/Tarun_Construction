@@ -1,0 +1,117 @@
+<div class="admin-page">
+  <div class="page-top">
+    <h2 class="page-heading">
+      <span class="material-icons-round">mail</span> Enquiries
+    </h2>
+    <span class="count-badge">{{ enquiries().length }} total</span>
+  </div>
+
+  @if (loading()) {
+    <div class="admin-loading"><div class="spin-lg"></div></div>
+  } @else {
+    <div class="eq-layout" [class.with-detail]="selected()">
+      <!-- List -->
+      <div class="eq-list">
+        @if (enquiries().length === 0) {
+          <div class="empty-eq">
+            <span class="material-icons-round">mark_email_unread</span>
+            <p>No enquiries yet.</p>
+          </div>
+        }
+        @for (e of enquiries(); track e._id) {
+          <div class="eq-item" [class.unread]="!e.isRead" [class.active]="selected()?._id === e._id"
+               (click)="viewEnquiry(e)">
+            <div class="eq-avatar">{{ e.name.charAt(0).toUpperCase() }}</div>
+            <div class="eq-info">
+              <div class="eq-top">
+                <strong>{{ e.name }}</strong>
+                <span class="eq-time">{{ formatDate(e.createdAt) }}</span>
+              </div>
+              <span class="eq-service">{{ e.service }}</span>
+              <p class="eq-preview">{{ e.message.substring(0, 80) }}...</p>
+            </div>
+            <div class="eq-meta">
+              <span class="status-dot" [class]="getStatusClass(e.status)"></span>
+              @if (!e.isRead) { <div class="unread-dot"></div> }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Detail -->
+      @if (selected()) {
+        <div class="eq-detail">
+          <div class="detail-header">
+            <h3>Enquiry Details</h3>
+            <div class="detail-actions">
+              <select class="status-select" [value]="selected()!.status"
+                      (change)="updateStatus(selected()!._id, $any($event.target).value)">
+                @for (s of statuses; track s) {
+                  <option [value]="s" [selected]="s === selected()!.status">{{ s }}</option>
+                }
+              </select>
+              <button class="btn-del-eq" (click)="confirmDelete(selected()!._id)">
+                <span class="material-icons-round">delete</span>
+              </button>
+              <button class="btn-close-detail" (click)="closeDetail()">
+                <span class="material-icons-round">close</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="detail-body">
+            <div class="detail-user">
+              <div class="detail-avatar">{{ selected()!.name.charAt(0).toUpperCase() }}</div>
+              <div>
+                <strong>{{ selected()!.name }}</strong>
+                <span>{{ selected()!.email }}</span>
+                @if (selected()!.phone) { <span>{{ selected()!.phone }}</span> }
+              </div>
+            </div>
+
+            <div class="detail-fields">
+              <div class="field"><span class="fl">Service</span><span class="fv">{{ selected()!.service }}</span></div>
+              @if (selected()!.budget) { <div class="field"><span class="fl">Budget</span><span class="fv">{{ selected()!.budget }}</span></div> }
+              @if (selected()!.timeline) { <div class="field"><span class="fl">Timeline</span><span class="fv">{{ selected()!.timeline }}</span></div> }
+              <div class="field"><span class="fl">Status</span>
+                <span class="status-badge" [class]="getStatusClass(selected()!.status)">{{ selected()!.status }}</span>
+              </div>
+              <div class="field"><span class="fl">Received</span><span class="fv">{{ formatDate(selected()!.createdAt) }}</span></div>
+            </div>
+
+            <div class="detail-message">
+              <h4>Message</h4>
+              <p>{{ selected()!.message }}</p>
+            </div>
+
+            <div class="detail-reply-btns">
+              <a [href]="'mailto:' + selected()!.email" class="btn-reply email">
+                <span class="material-icons-round">email</span> Reply by Email
+              </a>
+              @if (selected()!.phone) {
+                <a [href]="'https://wa.me/' + (selected()!.phone || '').replace(/\D/g, '')" target="_blank" class="btn-reply whatsapp">
+                  <span class="material-icons-round">chat</span> WhatsApp
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Delete Confirm -->
+  @if (deleteConfirm()) {
+    <div class="confirm-overlay" (click)="cancelDelete()">
+      <div class="confirm-box" (click)="$event.stopPropagation()">
+        <span class="material-icons-round warn">warning</span>
+        <h4>Delete Enquiry?</h4>
+        <p>This enquiry will be permanently removed.</p>
+        <div class="confirm-actions">
+          <button (click)="cancelDelete()">Cancel</button>
+          <button class="btn-confirm-del" (click)="deleteEnquiry()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

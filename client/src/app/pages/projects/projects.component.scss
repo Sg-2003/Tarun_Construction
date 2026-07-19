@@ -1,0 +1,224 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ====== Filter Tabs ======
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  justify-content: center;
+  margin-bottom: $space-12;
+}
+
+.filter-btn {
+  padding: $space-3 $space-6;
+  border-radius: $radius-full;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $gray-400;
+  background: rgba($white, 0.04);
+  border: 1px solid rgba($white, 0.1);
+  cursor: pointer;
+  transition: $transition-base;
+
+  &:hover {
+    color: $white;
+    border-color: rgba($primary, 0.4);
+    background: rgba($primary, 0.08);
+  }
+
+  &.active {
+    color: $dark;
+    background: $gradient-primary;
+    border-color: transparent;
+    box-shadow: $shadow-glow;
+    font-weight: $fw-bold;
+  }
+}
+
+// ====== Projects Grid ======
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-8;
+
+  @include respond-to('xl') { grid-template-columns: repeat(2, 1fr); }
+  @include respond-to('sm') { grid-template-columns: 1fr; }
+}
+
+// ====== Project Card ======
+.project-card {
+  @include card-dark;
+  overflow: hidden;
+}
+
+.project-image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.project-img-placeholder {
+  width: 100%;
+  height: 100%;
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+
+  &[data-category="Residential"] { background: linear-gradient(135deg, #1a1505, #2e2508); }
+  &[data-category="Commercial"] { background: linear-gradient(135deg, #051a14, #082e24); }
+  &[data-category="Interior Design"] { background: linear-gradient(135deg, #0a0518, #160830); }
+  &[data-category="Renovation"] { background: linear-gradient(135deg, #1a0a05, #2e1208); }
+  &[data-category="Architecture"] { background: linear-gradient(135deg, #091a05, #0f2e08); }
+  &[data-category="Industrial"] { background: linear-gradient(135deg, #141414, #222222); }
+
+  .material-icons-round {
+    font-size: 56px;
+    color: rgba($primary, 0.5);
+  }
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba($dark, 0.85);
+  @include flex-center;
+  opacity: 0;
+  transition: $transition-base;
+
+  .project-card:hover & { opacity: 1; }
+}
+
+.view-btn {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-6;
+  background: $gradient-primary;
+  color: $dark;
+  border-radius: $radius-full;
+  font-size: $fs-sm;
+  font-weight: $fw-bold;
+  text-decoration: none;
+  transition: $transition-bounce;
+
+  &:hover { transform: scale(1.06); }
+
+  .material-icons-round { font-size: 18px; }
+}
+
+.project-status {
+  position: absolute;
+  top: $space-3;
+  right: $space-3;
+  padding: 4px $space-3;
+  border-radius: $radius-full;
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+  @include label-uppercase;
+
+  &.completed { background: rgba($success, 0.15); color: $success; border: 1px solid rgba($success, 0.3); }
+  &.ongoing { background: rgba($primary, 0.15); color: $primary; border: 1px solid rgba($primary, 0.3); }
+  &.planning { background: rgba($info, 0.15); color: $info; border: 1px solid rgba($info, 0.3); }
+}
+
+.featured-badge {
+  position: absolute;
+  top: $space-3;
+  left: $space-3;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px $space-3;
+  background: rgba($primary, 0.9);
+  color: $dark;
+  border-radius: $radius-full;
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+
+  .material-icons-round { font-size: 12px; }
+}
+
+.project-info {
+  padding: $space-6;
+
+  .project-category {
+    @include label-uppercase;
+    color: $primary;
+    font-size: $fs-xs;
+    display: block;
+    margin-bottom: $space-2;
+  }
+
+  h3 {
+    font-family: $font-heading;
+    font-size: $fs-xl;
+    font-weight: $fw-bold;
+    color: $white;
+    margin-bottom: $space-3;
+  }
+
+  p {
+    font-size: $fs-sm;
+    color: $gray-500;
+    line-height: 1.7;
+    margin-bottom: $space-4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  margin-bottom: $space-4;
+  padding-bottom: $space-4;
+  border-bottom: 1px solid rgba($white, 0.06);
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: $fs-xs;
+    color: $gray-600;
+
+    .material-icons-round { font-size: 13px; color: $primary; }
+  }
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  color: $primary;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  text-decoration: none;
+  transition: $transition-base;
+
+  .material-icons-round { font-size: 16px; transition: transform 0.3s ease; }
+  &:hover .material-icons-round { transform: translateX(4px); }
+}
+
+// ====== Empty State ======
+.empty-state {
+  text-align: center;
+  padding: $space-20 0;
+  color: $gray-600;
+
+  .material-icons-round { font-size: 72px; color: rgba($primary, 0.2); display: block; margin-bottom: $space-4; }
+  h3 { font-size: $fs-2xl; color: $gray-400; margin-bottom: $space-3; }
+  p { font-size: $fs-base; }
+}
+
+.project-skeleton {
+  background: $dark-2;
+  border: 1px solid rgba($white, 0.06);
+  border-radius: $radius-xl;
+  overflow: hidden;
+}
+
+.projects-section { background: $dark; }

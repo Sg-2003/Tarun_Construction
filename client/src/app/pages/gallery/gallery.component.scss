@@ -1,0 +1,158 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.gallery-section { background: $dark; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 220px;
+  gap: $space-4;
+
+  @include respond-to('xl') { grid-template-columns: repeat(3, 1fr); }
+  @include respond-to('md') { grid-template-columns: repeat(2, 1fr); }
+  @include respond-to('sm') { grid-template-columns: 1fr; grid-auto-rows: 200px; }
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  cursor: pointer;
+  transition: $transition-base;
+
+  &.tall { grid-row: span 2; }
+
+  &:hover { transform: scale(1.02); box-shadow: $shadow-xl; z-index: 2; }
+  &:hover .gallery-overlay { opacity: 1; }
+  &:hover .gallery-icon { transform: scale(1.15) rotate(-5deg); }
+}
+
+.gallery-img {
+  width: 100%; height: 100%;
+  @include flex-center;
+}
+
+.gallery-icon {
+  font-size: 72px;
+  color: rgba($primary, 0.35);
+  transition: transform 0.4s ease;
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba($dark, 0.95) 0%, rgba($dark, 0.4) 60%, transparent 100%);
+  opacity: 0;
+  transition: $transition-base;
+  padding: $space-5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.gallery-zoom {
+  align-self: flex-end;
+  width: 40px; height: 40px;
+  background: rgba($primary, 0.9);
+  border-radius: $radius-full;
+  @include flex-center;
+  .material-icons-round { font-size: 20px; color: $dark; }
+}
+
+.gallery-info {
+  .gallery-cat {
+    @include label-uppercase;
+    color: $primary;
+    font-size: $fs-xs;
+    display: block;
+    margin-bottom: 4px;
+  }
+  h4 { font-family: $font-heading; font-size: $fs-lg; font-weight: $fw-bold; color: $white; margin-bottom: 4px; }
+  p { display: flex; align-items: center; gap: 4px; font-size: $fs-xs; color: $gray-400;
+    .material-icons-round { font-size: 13px; color: $primary; }
+  }
+}
+
+// ====== Lightbox ======
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba($dark, 0.97);
+  z-index: $z-modal;
+  @include flex-center;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+
+.lb-close {
+  position: absolute;
+  top: $space-6;
+  right: $space-6;
+  width: 48px; height: 48px;
+  background: rgba($white, 0.08);
+  border: 1px solid rgba($white, 0.15);
+  border-radius: $radius-full;
+  @include flex-center;
+  color: $white;
+  cursor: pointer;
+  transition: $transition-base;
+  .material-icons-round { font-size: 24px; }
+  &:hover { background: rgba($error, 0.2); border-color: $error; color: $error; }
+}
+
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px; height: 52px;
+  background: rgba($white, 0.06);
+  border: 1px solid rgba($white, 0.12);
+  border-radius: $radius-full;
+  @include flex-center;
+  color: $white;
+  cursor: pointer;
+  transition: $transition-bounce;
+  z-index: 10;
+  .material-icons-round { font-size: 28px; }
+
+  &:hover { background: rgba($primary, 0.2); border-color: $primary; color: $primary; transform: translateY(-50%) scale(1.1); }
+  &.lb-prev { left: $space-8; }
+  &.lb-next { right: $space-8; }
+
+  @include respond-to('md') {
+    width: 40px; height: 40px;
+    &.lb-prev { left: $space-4; }
+    &.lb-next { right: $space-4; }
+  }
+}
+
+.lb-content {
+  max-width: 700px;
+  width: 90%;
+  border-radius: $radius-2xl;
+  overflow: hidden;
+  border: 1px solid rgba($primary, 0.2);
+  animation: slideUp 0.35s ease;
+}
+
+.lb-image {
+  height: 440px;
+  @include flex-center;
+
+  @include respond-to('md') { height: 300px; }
+}
+
+.lb-big-icon { font-size: 120px; color: rgba($primary, 0.35); }
+
+.lb-info {
+  background: $dark-2;
+  padding: $space-6;
+
+  .lb-cat { @include label-uppercase; color: $primary; font-size: $fs-xs; display: block; margin-bottom: $space-2; }
+  h3 { font-family: $font-heading; font-size: $fs-2xl; font-weight: $fw-bold; color: $white; margin-bottom: $space-2; }
+  p { display: flex; align-items: center; gap: $space-2; color: $gray-500; font-size: $fs-sm;
+    .material-icons-round { font-size: 16px; color: $primary; }
+  }
+}

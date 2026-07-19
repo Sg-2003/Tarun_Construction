@@ -1,0 +1,117 @@
+<div class="page-header">
+  <h1>Client <span>Testimonials</span></h1>
+  <nav class="breadcrumb">
+    <a routerLink="/">Home</a>
+    <span class="material-icons-round">chevron_right</span>
+    <span>Testimonials</span>
+  </nav>
+</div>
+
+<section class="testimonials-section section-padding">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge"><span class="material-icons-round">format_quote</span> What They Say</div>
+      <h2 class="section-heading">Stories of <span>Success</span></h2>
+      <p class="section-subtitle">Our clients' satisfaction is our greatest achievement. Here's what they have to say about working with us.</p>
+    </div>
+
+    <!-- Featured Carousel -->
+    <div class="testimonial-carousel" (mouseenter)="stopAutoPlay()" (mouseleave)="startAutoPlay()">
+      <div class="carousel-main">
+        <div class="quote-mark"><span class="material-icons-round">format_quote</span></div>
+        <div class="carousel-text">
+          <p class="testimonial-body">{{ current.text }}</p>
+          <div class="stars">
+            @for (s of getStars(current.rating); track $index) {
+              <span class="material-icons-round star">star</span>
+            }
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">{{ current.initials }}</div>
+            <div class="author-info">
+              <strong>{{ current.name }}</strong>
+              <span>{{ current.role }}{{ current.company ? ' · ' + current.company : '' }}</span>
+              <span class="project-tag"><span class="material-icons-round">apartment</span>{{ current.project }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button (click)="prevSlide()"><span class="material-icons-round">chevron_left</span></button>
+          <div class="dots">
+            @for (t of testimonials; track t.id; let i = $index) {
+              <button class="dot" [class.active]="i === currentSlide()" (click)="goToSlide(i)"></button>
+            }
+          </div>
+          <button (click)="nextSlide()"><span class="material-icons-round">chevron_right</span></button>
+        </div>
+      </div>
+
+      <!-- Side cards -->
+      <div class="side-cards">
+        @for (t of testimonials; track t.id; let i = $index) {
+          @if (i !== currentSlide()) {
+            <div class="side-card" (click)="goToSlide(i)">
+              <div class="sc-avatar">{{ t.initials }}</div>
+              <div class="sc-info">
+                <strong>{{ t.name }}</strong>
+                <span>{{ t.role }}</span>
+                <div class="sc-stars">
+                  @for (s of getStars(t.rating); track $index) {
+                    <span class="material-icons-round">star</span>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Grid Cards -->
+    <div class="all-testimonials">
+      <h3 class="grid-heading">All Reviews</h3>
+      <div class="testimonials-grid">
+        @for (t of testimonials; track t.id) {
+          <div class="t-card reveal" [class.active-card]="t.id === current.id">
+            <div class="t-card-header">
+              <div class="t-avatar">{{ t.initials }}</div>
+              <div>
+                <strong>{{ t.name }}</strong>
+                <span>{{ t.role }}</span>
+              </div>
+            </div>
+            <div class="t-stars">
+              @for (s of getStars(t.rating); track $index) {
+                <span class="material-icons-round">star</span>
+              }
+            </div>
+            <p>"{{ t.text.substring(0, 160) }}..."</p>
+            <div class="t-project">
+              <span class="material-icons-round">apartment</span>
+              {{ t.project }}
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="container">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h2>Ready to Create Your<br /><span>Success Story?</span></h2>
+        <p>Join 250+ satisfied clients who trusted Tarun Construction with their projects.</p>
+      </div>
+      <div class="cta-actions">
+        <a routerLink="/contact" class="btn-cta-primary">
+          <span class="material-icons-round">request_quote</span>
+          Start Your Project
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

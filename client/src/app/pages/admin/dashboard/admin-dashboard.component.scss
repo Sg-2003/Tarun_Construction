@@ -1,0 +1,196 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0D0D0D;
+}
+
+// ====== Sidebar ======
+.admin-sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: $dark-2;
+  border-right: 1px solid rgba($white, 0.06);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  transition: width 0.3s ease;
+  z-index: $z-sticky;
+
+  &.collapsed { width: 72px; }
+}
+
+.sidebar-header {
+  padding: $space-5 $space-5;
+  border-bottom: 1px solid rgba($white, 0.06);
+  @include flex-between;
+  min-height: 72px;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  overflow: hidden;
+  white-space: nowrap;
+
+  .logo-name { display: block; font-family: $font-heading; font-size: $fs-base; font-weight: $fw-black; @include gradient-text; }
+  .logo-sub { display: block; font-size: $fs-xs; color: $gray-600; @include label-uppercase; }
+}
+
+.collapse-btn {
+  width: 36px; height: 36px;
+  border-radius: $radius-md;
+  background: rgba($white, 0.04);
+  border: 1px solid rgba($white, 0.08);
+  @include flex-center;
+  color: $gray-500;
+  cursor: pointer;
+  transition: $transition-base;
+  flex-shrink: 0;
+
+  .material-icons-round { font-size: 20px; }
+  &:hover { color: $primary; background: rgba($primary, 0.08); border-color: rgba($primary, 0.2); }
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: $space-4 $space-3;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-radius: $radius-lg;
+  color: $gray-500;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  text-decoration: none;
+  transition: $transition-base;
+  white-space: nowrap;
+  overflow: hidden;
+
+  .material-icons-round { font-size: 22px; flex-shrink: 0; }
+
+  &:hover {
+    background: rgba($primary, 0.08);
+    color: $primary;
+  }
+
+  &.active {
+    background: rgba($primary, 0.12);
+    color: $primary;
+    border-left: 3px solid $primary;
+  }
+}
+
+.nav-label { overflow: hidden; }
+
+.sidebar-footer {
+  padding: $space-5;
+  border-top: 1px solid rgba($white, 0.06);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-bottom: $space-4;
+  overflow: hidden;
+
+  strong { display: block; font-size: $fs-sm; color: $white; white-space: nowrap; }
+  span { font-size: $fs-xs; color: $gray-600; text-transform: capitalize; }
+}
+
+.user-avatar {
+  width: 36px; height: 36px;
+  border-radius: $radius-full;
+  background: $gradient-primary;
+  @include flex-center;
+  font-family: $font-heading;
+  font-weight: $fw-black;
+  color: $dark;
+  font-size: $fs-base;
+  flex-shrink: 0;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  width: 100%;
+  padding: $space-3 $space-4;
+  border-radius: $radius-lg;
+  background: rgba($error, 0.08);
+  border: 1px solid rgba($error, 0.15);
+  color: $error;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  transition: $transition-base;
+  white-space: nowrap;
+  overflow: hidden;
+
+  .material-icons-round { font-size: 18px; flex-shrink: 0; }
+  &:hover { background: rgba($error, 0.15); border-color: $error; }
+}
+
+// ====== Main ======
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-topbar {
+  height: 64px;
+  padding: 0 $space-8;
+  background: $dark-2;
+  border-bottom: 1px solid rgba($white, 0.06);
+  @include flex-between;
+  position: sticky;
+  top: 0;
+  z-index: $z-raised;
+}
+
+.page-title {
+  font-family: $font-heading;
+  font-size: $fs-base;
+  font-weight: $fw-bold;
+  color: $white;
+}
+
+.view-site-btn {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-5;
+  background: rgba($primary, 0.1);
+  border: 1px solid rgba($primary, 0.25);
+  border-radius: $radius-full;
+  color: $primary;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  text-decoration: none;
+  transition: $transition-base;
+
+  .material-icons-round { font-size: 16px; }
+  &:hover { background: rgba($primary, 0.2); }
+}
+
+.admin-content {
+  flex: 1;
+  padding: $space-8;
+  overflow-y: auto;
+}
