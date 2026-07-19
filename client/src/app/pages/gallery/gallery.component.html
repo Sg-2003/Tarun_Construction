@@ -10,7 +10,7 @@
 <section class="gallery-section section-padding">
   <div class="container">
     <!-- Filter -->
-    <div class="filter-tabs" style="justify-content:center; margin-bottom:3rem;">
+    <div class="filter-tabs">
       @for (f of filters; track f) {
         <button class="filter-btn" [class.active]="selectedFilter() === f" (click)="selectedFilter.set(f)">{{ f }}</button>
       }

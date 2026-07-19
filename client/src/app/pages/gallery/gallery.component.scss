@@ -3,6 +3,41 @@
 
 .gallery-section { background: $dark; }
 
+// ====== Filter Tabs ======
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  justify-content: center;
+  margin-bottom: $space-12;
+}
+
+.filter-btn {
+  padding: $space-3 $space-6;
+  border-radius: $radius-full;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $gray-400;
+  background: rgba($white, 0.04);
+  border: 1px solid rgba($white, 0.1);
+  cursor: pointer;
+  transition: $transition-base;
+
+  &:hover {
+    color: $white;
+    border-color: rgba($primary, 0.4);
+    background: rgba($primary, 0.08);
+  }
+
+  &.active {
+    color: $dark;
+    background: $gradient-primary;
+    border-color: transparent;
+    box-shadow: $shadow-glow;
+    font-weight: $fw-bold;
+  }
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
