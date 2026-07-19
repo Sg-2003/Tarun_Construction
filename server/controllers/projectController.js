@@ -1,5 +1,26 @@
 const Project = require('../models/Project');
-const cloudinary = require('../config/cloudinary');
+const path = require('path');
+
+// Only require cloudinary if configured
+const hasCloudinary =
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_CLOUD_NAME !== 'your_cloud_name';
+const cloudinary = hasCloudinary ? require('../config/cloudinary') : null;
+
+// Helper: normalize uploaded file to {url, publicId}
+function normalizeFile(file, index) {
+  let url, publicId;
+  if (hasCloudinary && file.path && file.path.startsWith('http')) {
+    // Cloudinary upload — file.path is the full CDN URL
+    url = file.path;
+    publicId = file.filename;
+  } else {
+    // Local disk storage — file.path is an absolute path
+    url = '/uploads/' + path.basename(file.path);
+    publicId = file.filename || path.basename(file.path);
+  }
+  return { url, publicId, caption: '', isMain: index === 0 };
+}
 
 // @desc    Get all projects
 // @route   GET /api/projects
@@ -55,14 +76,9 @@ const createProject = async (req, res) => {
   try {
     const projectData = { ...req.body };
 
-    // Handle uploaded images from Multer + Cloudinary
+    // Handle uploaded images from Multer (Cloudinary or local disk)
     if (req.files && req.files.length > 0) {
-      projectData.images = req.files.map((file, index) => ({
-        url: file.path,
-        publicId: file.filename,
-        caption: '',
-        isMain: index === 0,
-      }));
+      projectData.images = req.files.map((file, index) => normalizeFile(file, index));
     }
 
     if (req.body.features && typeof req.body.features === 'string') {
@@ -90,12 +106,7 @@ const updateProject = async (req, res) => {
     const updateData = { ...req.body };
 
     if (req.files && req.files.length > 0) {
-      const newImages = req.files.map((file) => ({
-        url: file.path,
-        publicId: file.filename,
-        caption: '',
-        isMain: false,
-      }));
+      const newImages = req.files.map((file, index) => normalizeFile(file, index));
       updateData.images = [...(project.images || []), ...newImages];
     }
 
@@ -125,11 +136,11 @@ const deleteProject = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Project not found' });
     }
 
-    // Delete images from Cloudinary
-    if (project.images && project.images.length > 0) {
+    // Delete images from Cloudinary (if configured)
+    if (cloudinary && project.images && project.images.length > 0) {
       for (const img of project.images) {
         if (img.publicId) {
-          await cloudinary.uploader.destroy(img.publicId);
+          try { await cloudinary.uploader.destroy(img.publicId); } catch (e) {}
         }
       }
     }
@@ -150,7 +161,9 @@ const deleteProjectImage = async (req, res) => {
     const { id, publicId } = req.params;
     const decodedPublicId = decodeURIComponent(publicId);
 
-    await cloudinary.uploader.destroy(decodedPublicId);
+    if (cloudinary) {
+      try { await cloudinary.uploader.destroy(decodedPublicId); } catch (e) {}
+    }
 
     const project = await Project.findByIdAndUpdate(
       id,
