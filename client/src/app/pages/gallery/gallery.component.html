@@ -12,7 +12,7 @@
     <!-- Filter -->
     <div class="filter-tabs">
       @for (f of filters; track f) {
-        <button class="filter-btn" [class.active]="selectedFilter() === f" (click)="selectedFilter.set(f)">{{ f }}</button>
+        <button class="filter-btn" [class.active]="selectedFilter() === f" (click)="filterGallery(f)">{{ f }}</button>
       }
     </div>
 

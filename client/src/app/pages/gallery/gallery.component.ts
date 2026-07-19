@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, AfterViewInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProjectService } from '../../core/services/project.service';
@@ -10,7 +10,7 @@ import { ProjectService } from '../../core/services/project.service';
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss'
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnInit, AfterViewInit {
   selectedImage = signal<any>(null);
   selectedFilter = signal('All');
   loading = signal(true);
@@ -28,6 +28,23 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {
     this.loadGalleryItems();
+  }
+
+  ngAfterViewInit() {
+    this.initScrollReveal();
+  }
+
+  initScrollReveal() {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  filterGallery(f: string) {
+    this.selectedFilter.set(f);
+    setTimeout(() => this.initScrollReveal(), 100);
   }
 
   loadGalleryItems() {
@@ -85,16 +102,19 @@ export class GalleryComponent implements OnInit {
           // If no items were parsed, fall back to default design placeholders
           this.galleryItems.set(items.length > 0 ? items : this.getDefaultMockItems());
           this.loading.set(false);
+          setTimeout(() => this.initScrollReveal(), 150);
         } catch (err) {
           console.error('Error parsing gallery items:', err);
           this.galleryItems.set(this.getDefaultMockItems());
           this.loading.set(false);
+          setTimeout(() => this.initScrollReveal(), 150);
         }
       },
       error: (err) => {
         console.error('Error loading gallery items:', err);
         this.galleryItems.set(this.getDefaultMockItems());
         this.loading.set(false);
+        setTimeout(() => this.initScrollReveal(), 150);
       }
     });
   }
