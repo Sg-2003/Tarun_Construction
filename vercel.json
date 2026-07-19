@@ -23,11 +23,12 @@
       "dest": "api/index.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff|woff2|ttf|eot|json))$",
+      "dest": "/client/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/client/index.html"
     }
   ]
 }
